@@ -246,6 +246,9 @@ val original_full_path : request_info -> string list
 (** Accessor for cookies of request_info *)
 val cookies : request_info -> string CookiesTable.t Lazy.t
 
+(** Accessor for cookies_string of request_info *)
+val cookies_string : request_info -> string option Lazy.t
+
 (** Accessor for post_params of request_info *)
 val post_params : request_info -> ((string option * Int64.t option) -> (string * string) list Lwt.t) option
 

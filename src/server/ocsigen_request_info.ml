@@ -361,6 +361,7 @@ let request_cache { request_cache; _ } = request_cache
 let files { files; _ } = files
 let original_full_path { original_full_path; _ } = original_full_path
 let cookies { cookies; _ } = cookies
+let cookies_string { cookies_string; _ } = cookies_string
 let post_params { post_params; _ } = post_params
 let get_params { get_params; _ } = get_params
 let initial_get_params { initial_get_params; _ } = initial_get_params
