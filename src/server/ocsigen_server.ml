@@ -1363,7 +1363,22 @@ let start_server () =
                    "SSL key is missing")
         | Some {ssl_certificate = Some c; ssl_privatekey = Some k} ->
           Ssl.set_password_callback !sslctx (ask_for_passwd sslports);
-          Ssl.use_certificate !sslctx c k
+          Ssl.use_certificate !sslctx c k;
+          Ssl.disable_protocols !sslctx [Ssl.SSLv23];
+          begin
+            try
+              Ssl.set_cipher_list !sslctx (Sys.getenv "OCSIGENSERVER_CIPHER_LIST");
+              Ssl.honor_cipher_order !sslctx;
+            with Not_found -> ()
+          end;
+          begin
+            try Ssl.init_dh_from_file !sslctx (Sys.getenv "OCSIGENSERVER_DH_PARAMS")
+            with Not_found -> ()
+          end;
+          begin
+            try Ssl.init_ec_from_named_curve !sslctx (Sys.getenv "OCSIGENSERVER_EC_CURVE")
+            with Not_found -> ()
+          end
     in
 
     let set_ciphers_if_needed = function
